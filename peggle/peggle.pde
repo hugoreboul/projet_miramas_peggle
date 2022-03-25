@@ -1,3 +1,18 @@
+
+
+//=================
+
+import processing.video.*;
+import gab.opencv.*;
+import java.awt.*;
+
+
+Capture cam;
+OpenCV opencv;
+
+//==================
+
+
 PImage projectile;
 PImage bg;
 int scanner;
@@ -5,6 +20,10 @@ PImage floating_square;
 PImage floating_img;
 int spacement_x;
 int spacement_y;
+
+
+
+
 //==================
 
 void setup(){
