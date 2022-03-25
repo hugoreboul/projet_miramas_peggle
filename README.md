@@ -1,1 +1,3 @@
-# projet_miramas_peggle
+# Peggle
+
+Utilisation de Processing pour créer un peggle en projection augmentée.
