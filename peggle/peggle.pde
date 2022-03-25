@@ -6,8 +6,8 @@ int y;
 
 void setup(){
   fullScreen();
-  bg = loadImage("background.jpg");
-  perso_1 = loadImage("moonwalk.jpg");  
+  bg = loadImage("background_01.jpg");
+  perso_1 = loadImage("missile.jpg");  
 }
 
 void draw(){
