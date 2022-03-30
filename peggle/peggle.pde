@@ -20,7 +20,7 @@ PImage floating_square;
 PImage floating_img;
 int spacement_x;
 int spacement_y;
-
+int screen_width;
 
 
 
@@ -28,25 +28,27 @@ int spacement_y;
 
 void setup(){
   // affichage fullscreen 1920 ===
-  fullScreen();
-  bg = loadImage("../prod/background_02.jpg");
+  //fullScreen();
+  //bg = loadImage("../prod/background_02.jpg");
+  //w=1920;
   
   // affichage réduit 640 ===
-  //size(640,360);
-  //bg = loadImage("../prod/background_03.jpg");
+  size(600,800);
+  bg = loadImage("../prod/background_04.jpg");
+  screen_width = 640;
   
   // projectile ===
   projectile = loadImage("../prod/boulder.png");
   
   // floating square ===
-  floating_square = createImage(150,150,ARGB);
+  floating_square = createImage(screen_width/6,screen_width/6,ARGB);
   for(int i = 0; i < floating_square.pixels.length; i++) {
     float a = map(i, 0, floating_square.pixels.length, 255, 0);
     floating_square.pixels[i] = color(0, 153, 204, a);
   }
   
   // floating image
-  floating_img = loadImage("../prod/missile.png");
+  floating_img = loadImage("../prod/boulder_tiny.png");
 }
 
 void draw(){
@@ -79,6 +81,6 @@ void draw(){
   //image(floating_img, 90, 80);
   //image(floating_img, 90, height/4, projectile.width/4, projectile.height/4);
   //image(floating_img, mouseX+floating_img.width/4, mouseY+floating_img.height/4);
-  image(floating_img, mouseX-floating_img.width/2, mouseY-floating_img.height/2);
+  image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
   
 }
