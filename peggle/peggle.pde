@@ -21,6 +21,9 @@ PImage floating_img;
 int spacement_x;
 int spacement_y;
 int screen_width;
+int screen_height;
+PImage canon_base;
+PImage canon_fut;
 
 
 
@@ -36,9 +39,24 @@ void setup(){
   size(600,800);
   bg = loadImage("../prod/background_04.jpg");
   screen_width = 640;
+  screen_height = 800;
+  
+  // affichage réduit 720
+  size(720,480);
+  bg=loadImage("../prod/background_05.jpg");
+  screen_width = 720;
+  screen_height = 480;
+  
   
   // projectile ===
   projectile = loadImage("../prod/boulder.png");
+  
+  
+  // canon_base ===
+  canon_base = loadImage("../prod/canon_base.png");
+  
+  // canon_fut ===
+  canon_fut = loadImage("../prod/canon_fut.png");
   
   // floating square ===
   floating_square = createImage(screen_width/6,screen_width/6,ARGB);
@@ -48,7 +66,7 @@ void setup(){
   }
   
   // floating image
-  floating_img = loadImage("../prod/boulder_tiny.png");
+  floating_img = loadImage("../prod/bulle_tiny.png");
 }
 
 void draw(){
@@ -59,7 +77,13 @@ void draw(){
   if (scanner > height) {
    scanner = 0;
   }
-  // affichage iamge  ===
+  
+  // affichage canon_base ===
+  image(canon_base, screen_width/3, screen_height/1.1, canon_base.width/4, canon_base.height/4);
+  //affichage canon_fut ===
+  image(canon_fut,screen_width/2.8, screen_height/1.26, canon_fut.width/4, canon_fut.height/6);
+  
+  // affichage image  ===
   //image(projectile, 0, 0);
   image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
   
@@ -81,6 +105,7 @@ void draw(){
   //image(floating_img, 90, 80);
   //image(floating_img, 90, height/4, projectile.width/4, projectile.height/4);
   //image(floating_img, mouseX+floating_img.width/4, mouseY+floating_img.height/4);
-  image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
+  //image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
+  image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width/2, floating_img.height/2);
   
 }
