@@ -37,19 +37,19 @@ void setup(){
   
   // affichage réduit 640 ===
   size(600,800);
-  bg = loadImage("../prod/background_04.jpg");
+  bg = loadImage("../prod/bg.jpg");
   screen_width = 640;
   screen_height = 800;
   
   // affichage réduit 720
-  size(720,480);
-  bg=loadImage("../prod/background_05.jpg");
-  screen_width = 720;
-  screen_height = 480;
+//size(720,480);
+  //bg=loadImage("../prod/Space Background_04.png");
+  //screen_width = 720;
+  //screen_height = 480;
   
   
   // projectile ===
-  projectile = loadImage("../prod/boulder.png");
+  //projectile = loadImage("../prod/boulder.png");
   
   
   // canon_base ===
@@ -79,18 +79,18 @@ void draw(){
   }
   
   // affichage canon_base ===
-  image(canon_base, screen_width/3, screen_height/1.1, canon_base.width/4, canon_base.height/4);
+  image(canon_base, screen_width/2.49, screen_height/1.1, canon_base.width*3, canon_base.height*3);
   //affichage canon_fut ===
-  image(canon_fut,screen_width/2.8, screen_height/1.26, canon_fut.width/4, canon_fut.height/6);
+  image(canon_fut,screen_width/2.5, screen_height/1.15, canon_fut.width*3, canon_fut.height*3);
   
   // affichage image  ===
   //image(projectile, 0, 0);
-  image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
+  //image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
   
   
   // affichage floating square ===
   image(floating_square, 90, 180);
-  image(floating_square, 290, 580);
+  image(floating_square, 190, 80);
   image(floating_square, 890, 980);
   //image(floating_square, spacement_x, spacement_y);
   //spacement_x++;
