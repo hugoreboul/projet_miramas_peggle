@@ -12,7 +12,7 @@ OpenCV opencv;
 
 //==================
 
-
+float y = 180;
 PImage projectile;
 PImage bg;
 int scanner;
@@ -22,9 +22,8 @@ int spacement_x;
 int spacement_y;
 int screen_width;
 int screen_height;
-PImage canon_base;
-PImage canon_fut;
-
+PImage gun;
+PImage brick_pink;
 
 
 //==================
@@ -53,17 +52,17 @@ void setup(){
   
   
   // canon_base ===
-  canon_base = loadImage("../prod/canon_base.png");
+  gun = loadImage("../prod/gun.png");
   
-  // canon_fut ===
-  canon_fut = loadImage("../prod/canon_fut.png");
+  
+  brick_pink = loadImage("../prod/brick_pink.png");
   
   // floating square ===
-  floating_square = createImage(screen_width/6,screen_width/6,ARGB);
-  for(int i = 0; i < floating_square.pixels.length; i++) {
-    float a = map(i, 0, floating_square.pixels.length, 255, 0);
-    floating_square.pixels[i] = color(0, 153, 204, a);
-  }
+  //floating_square = createImage(screen_width/6,screen_width/6,ARGB);
+  //for(int i = 0; i < floating_square.pixels.length; i++) {
+  //  float a = map(i, 0, floating_square.pixels.length, 255, 0);
+  //  floating_square.pixels[i] = color(0, 153, 204, a);
+  //}
   
   // floating image
   floating_img = loadImage("../prod/bulle_tiny.png");
@@ -79,19 +78,23 @@ void draw(){
   }
   
   // affichage canon_base ===
-  image(canon_base, screen_width/2.49, screen_height/1.1, canon_base.width*3, canon_base.height*3);
-  //affichage canon_fut ===
-  image(canon_fut,screen_width/2.5, screen_height/1.15, canon_fut.width*3, canon_fut.height*3);
+  image(gun, y, height-80, gun.width*3, gun.height*3);
+  y++;
+  if (y > width) { 
+    y = 0; 
+  }
+  
   
   // affichage image  ===
   //image(projectile, 0, 0);
   //image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
-  
+  image(brick_pink, 180, 90);
+  image(brick_pink, 300, 300);
   
   // affichage floating square ===
-  image(floating_square, 90, 180);
-  image(floating_square, 190, 80);
-  image(floating_square, 890, 980);
+  image(brick_pink, 90, 180);
+  image(brick_pink, 250, 80);
+  image(brick_pink, 890, 980);
   //image(floating_square, spacement_x, spacement_y);
   //spacement_x++;
   //spacement_y++;
