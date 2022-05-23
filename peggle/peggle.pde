@@ -125,7 +125,7 @@ void setup(){
     //x = videoWidth_ - m - w;
     //hotSpots_[2] = new HotSpot(x,y,w,h);
     
-    x = m;
+    //x = m;
     y = videoHeight_ - m - h;
     hotSpots_[0] = new HotSpot(x,y,w,h);
     
