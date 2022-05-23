@@ -5,9 +5,6 @@
 import processing.video.*;
 import gab.opencv.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 Capture cam_;
 OpenCV opencv_;
@@ -15,13 +12,11 @@ OpenCV opencv_;
 //==================
 
 PImage bg;
-List<Image> images = new ArrayList<Image>();
 float scanner = 0;
 PImage floating_img;
 int screen_width;
 int screen_height;
 PImage gun;
-float y = 180;
 PImage brick_pink;
 PImage surface;
 PFont font;
@@ -29,10 +24,6 @@ String time = "060";
 int t;
 int interval = 60;
 int state = 0;
-PImage ball_image;
-boolean image_bool;
-int ball;
-float axe_ball;
 
 //==================
 
@@ -46,7 +37,7 @@ float timeSOld_ = timeMS_;
 int videoWidth_ = 320;
 int videoHeight_ = 180;
 // int scale_ = 6;
-int scale_ = 1;
+int scale_ = 2;
 
 PImage[] frames_ = new PImage[2];
 int currentFrameIndex_ = 0;
@@ -99,7 +90,7 @@ void setup(){
     
     // The camera can be initialized directly using an 
     // element from the array returned by list():
-    //cam_ = new Capture(this, videoWidth_, videoHeight_, "HD Pro Webcam C920");
+    //cam_ = new Capture(this, videoWidth_, videoHeight_, "2- HD Pro Webcam C9");
     cam_ = new Capture(this, videoWidth_, videoHeight_, "EasyCamera");
     
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_);
@@ -145,29 +136,15 @@ void setup(){
   //state = 0;
   
   // canon ===
-  gun = loadImage("../prod/gun2.png");
+  gun = loadImage("../prod/gun.png");
   // surface
   surface = loadImage("../prod/surface.png");
   // briques
   brick_pink = loadImage("../prod/brick_pink.png");
   // floating image
   floating_img = loadImage("../prod/bubble.png");
-  ball_image = loadImage("../prod/bulle_tiny.png");
-
   // font
   font = createFont("Arial", 30);
-  images.add(new Image(brick_pink,180,90, brick_pink.width* 3,brick_pink.height* 2));
-  
-  //images[0].affiche();
-  //Image.Image(brick_pink, 180, 90);
-  images.add(new Image(brick_pink,300,300, brick_pink.width* 3,brick_pink.height* 2));
-  // affichage floating square ===
-  images.add(new Image(brick_pink,180,90, brick_pink.width* 3,brick_pink.height* 2));
-  images.add(new Image(brick_pink,1700,180, brick_pink.width* 3,brick_pink.height* 2));
-    images.add(new Image(brick_pink,1300,80, brick_pink.width* 3,brick_pink.height* 2));
-  images.add(new Image(brick_pink,890,245, brick_pink.width* 3,brick_pink.height* 2));
-
-  
 }
 
 // ====================
@@ -261,9 +238,6 @@ void drawHotSpots() {
 
 // =============
 void draw(){
-  
-  
-
   // affichage background
   background(bg);
   
@@ -271,24 +245,14 @@ void draw(){
   stroke(226,204,0);
   //line(scanner,0,scanner,height);
   // affichage canon ===
-  image(gun, scanner-32, height-240, gun.width*3, gun.height*3);
-  
-    for(int i=0;i<images.size()-1;i++)
-  {
-      images.get(i).affiche();
-  }
-    for(int i=0;i<images.size()-1;i++)
-  {
-      images.get(i).affiche();
-  }
-
+  image(gun, scanner-32, height-160, gun.width*5, gun.height*5);
   // translation à gauche et droite du canon et du laser ===
   scanner++;
   if (keyCode == LEFT) {
-    scanner = scanner - 14;
+    scanner = scanner -7;
   } 
   else if (keyCode == RIGHT) {
-    scanner = scanner +10;
+    scanner = scanner +5;
   }
   if (scanner > width) { 
     scanner = 0; 
@@ -372,7 +336,13 @@ popMatrix();
 // =================  
 
   // === IMAGES  ===
-
+    
+  //affichage briques ===
+  image(brick_pink, 180, 90, brick_pink.width*4,brick_pink.height*2);
+  image(brick_pink, 300, 300, brick_pink.width*4,brick_pink.height*2);
+  image(brick_pink, 1700, 180, brick_pink.width*4,brick_pink.height*2);
+  image(brick_pink, 1300, 80, brick_pink.width*4,brick_pink.height*2);
+  image(brick_pink, 890, 245, brick_pink.width*4,brick_pink.height*2);
 
   
   // affichage floating image ===
@@ -380,44 +350,6 @@ popMatrix();
   
   // affichage surface
   image(surface, 0,0);
-  
-  
-  if(image_bool==true)
-  {
-    Image ball_img=new Image(ball_image,int(axe_ball),height-80-ball, ball_image.width/4, ball_image.height/4);
-    ball_img.affiche();
-    //image(ball_image, axe_ball, height-80-ball, ball_image.width/2, ball_image.height/2);
-    for(int i=0;i<images.size()-1;i++)
-    {
-      int coor_ball_x_1=ball_img.x;
-      int coor_ball_y_1=ball_img.y;
-      int coor_ball_x_2=ball_img.x+ball_img.w;
-      int coor_ball_y_2=ball_img.y+ball_img.w;
-      int coor_brick_x_1=images.get(i).x;
-      int coor_brick_y_1=images.get(i).y+images.get(i).h;
-      int coor_brick_x_2=images.get(i).x+images.get(i).w;
-      int coor_brick_y_2=images.get(i).y+images.get(i).w+images.get(i).h;
-      println(":::");
-      println(coor_ball_x_1);
-      println(coor_brick_x_1);
-      if (coor_ball_y_1 < coor_brick_y_1 && coor_ball_x_1 > coor_brick_x_1 && coor_ball_x_2 < coor_brick_x_2)
-      {
-        images.remove(i);
-        image_bool=false;
-        ball = 0;
-      }
-    }
-    if(image_bool==true)
-    {
-      
-    ball=ball+8;
-    if (ball > screen_height) {
-       ball = 0;
-       image_bool=false;
-    }
-    ball++;
-  }
-  }
   
 // ================== 
  
@@ -449,12 +381,4 @@ void keyPressed() {
     exit();
   }
    
-}
-
-void mouseClicked() {
-  if(image_bool!=true)
-  {
-    axe_ball=scanner;
-    image_bool=true;
-  }
 }
