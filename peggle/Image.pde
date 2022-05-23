@@ -8,8 +8,10 @@ class Image {
     im = _im;
     x = _x;
     y = _y;
+
     w = 100;
     h = 100;
+
     a=0;
   }
   

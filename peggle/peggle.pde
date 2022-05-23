@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 Capture cam_;
 OpenCV opencv_;
 
@@ -17,12 +18,16 @@ OpenCV opencv_;
 PImage bg;
 List<Image> images = new ArrayList<Image>();
 float scanner = 0;
+//Image[] images = new Image[5];
+float y = 180;
+PImage projectile;
+PImage floating_square;
 PImage floating_img;
 int screen_width;
 int screen_height;
+float axe_ball;
 PImage gun;
 float y = 180;
-PImage brick_pink;
 PImage surface;
 PFont font;
 String time = "060";
@@ -32,7 +37,6 @@ int state = 0;
 PImage ball_image;
 boolean image_bool;
 int ball;
-float axe_ball;
 
 //==================
 
@@ -140,9 +144,11 @@ void setup(){
 // ================
 // FIN SETUP OPENCV
   
+
   
   // état du jeu
   //state = 0;
+
   
   // canon ===
   gun = loadImage("../prod/gun2.png");
@@ -161,13 +167,12 @@ void setup(){
   //images[0].affiche();
   //Image.Image(brick_pink, 180, 90);
   images.add(new Image(brick_pink,300,300, brick_pink.width* 3,brick_pink.height* 2));
-  // affichage floating square ===
   images.add(new Image(brick_pink,180,90, brick_pink.width* 3,brick_pink.height* 2));
   images.add(new Image(brick_pink,1700,180, brick_pink.width* 3,brick_pink.height* 2));
-    images.add(new Image(brick_pink,1300,80, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,1300,80, brick_pink.width* 3,brick_pink.height* 2));
   images.add(new Image(brick_pink,890,245, brick_pink.width* 3,brick_pink.height* 2));
 
-  
+
 }
 
 // ====================
@@ -261,10 +266,9 @@ void drawHotSpots() {
 
 // =============
 void draw(){
-  
-  
 
   // affichage background
+
   background(bg);
   
   // affichage laser ===
@@ -296,11 +300,12 @@ void draw(){
   if (scanner < 0) { 
     scanner = width; 
   }
+
   
 // ================
   
 // === CAMERA ===
-// protéger avec push matrix et pop matrix
+
 
 pushMatrix();
 synchronized(this) {
@@ -382,6 +387,33 @@ popMatrix();
   image(surface, 0,0);
   
   
+=======
+  for(int i=0;i<images.size()-1;i++)
+  {
+      images.get(i).affiche();
+  }
+
+  
+  // affichage image  ===
+  //image(projectile, 0, 0);
+  //image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
+
+
+  //image(floating_square, spacement_x, spacement_y);
+  //spacement_x++;
+  //spacement_y++;
+  //for (spacement_x <1920 && spacement_y <1080) {
+  //  spacement_x=spacement_x+150;
+  //  spacement_y=spacement_y+150
+  //}
+  //image(floating_square, mouseX-floating_square.width/2, mouseY-floating_square.height/2);
+  
+  // affichage floating image ===
+  //image(floating_img, 90, 80);
+  //image(floating_img, 90, height/4, projectile.width/4, projectile.height/4);
+  //image(floating_img, mouseX+floating_img.width/4, mouseY+floating_img.height/4);
+  //image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
+  image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width/2, floating_img.height/2);
   if(image_bool==true)
   {
     Image ball_img=new Image(ball_image,int(axe_ball),height-80-ball, ball_image.width/4, ball_image.height/4);
@@ -410,6 +442,7 @@ popMatrix();
     if(image_bool==true)
     {
       
+
     ball=ball+8;
     if (ball > screen_height) {
        ball = 0;
@@ -418,6 +451,7 @@ popMatrix();
     ball++;
   }
   }
+
   
 // ================== 
  
@@ -425,6 +459,9 @@ popMatrix();
 
 //============================
 void captureEvent(Capture c) {
+
+
+
   
   synchronized(this) {
     
@@ -442,6 +479,9 @@ void captureEvent(Capture c) {
   
 }
 
+void colliderBall()
+{}
+
 //=================
 void keyPressed() {
   if ( (keyCode == ESC) || ( keyCode == 'q' ) || ( keyCode == 'Q' )) {
@@ -455,6 +495,14 @@ void mouseClicked() {
   if(image_bool!=true)
   {
     axe_ball=scanner;
+    image_bool=true;
+  }
+}
+
+void mouseClicked() {
+  if(image_bool!=true)
+  {
+    axe_ball=y;
     image_bool=true;
   }
 }
