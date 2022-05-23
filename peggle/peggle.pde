@@ -50,6 +50,9 @@ void setup(){
   font = createFont("Arial", 30);
 }
 
+
+// =============
+
 void draw(){
   // affichage background
   background(bg);
@@ -66,9 +69,13 @@ void draw(){
    scanner = 0;
   }
   
+// ================
+  
   // === CAMERA ===
   // protéger avec push matrix et pop matrix
-  
+
+// ===============
+
   // === TIMER ===
   // affichage timer
   String s = "Timer";
@@ -83,7 +90,9 @@ void draw(){
   }
   text(time,width/2,height/2);
   
-  // === AFFICHAGE IMAGES  ===
+// =================  
+
+  // === IMAGES  ===
     
   //affichage briques ===
   image(brick_pink, 180, 90);
@@ -96,5 +105,9 @@ void draw(){
   // affichage floating image ===
   image(floating_img, mouseX-floating_img.width/12, mouseY+floating_img.height/12, floating_img.width*2, floating_img.height*2);
   
+  // affichage surface
   image(surface, 0,755, surface.width*6, surface.height*2);
+  
+// ================== 
+ 
 }
