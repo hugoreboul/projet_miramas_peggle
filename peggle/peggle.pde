@@ -20,9 +20,10 @@ PImage gun;
 PImage brick_pink;
 PImage surface;
 PFont font;
-String time="060";
+String time = "060";
 int t;
-int interval=6;
+int interval = 60;
+int state = 0;
 
 //==================
 
@@ -37,6 +38,9 @@ void setup(){
   bg = loadImage("../prod/bg.jpg");
   screen_width = 640;
   screen_height = 800;
+  
+  // état du jeu
+  //state = 0;
   
   // canon ===
   gun = loadImage("../prod/gun.png");
@@ -62,6 +66,7 @@ void draw(){
   line(scanner,0,scanner,height);
   // affichage canon ===
   image(gun, scanner-32, height-80, gun.width*3, gun.height*3);
+  // translation à gauche et droite du canon et du laser ===
   scanner++;
   if (keyCode == LEFT) {
     scanner = scanner -2.5;
@@ -75,12 +80,6 @@ void draw(){
   if (scanner < 0) { 
     scanner = 640; 
   }
-
-  // translation de gauche à droite du canon
-  //scanner++;
-  //if (scanner > width) {
-  // scanner = 0;
-  //}
   
 // ================
   
@@ -88,6 +87,8 @@ void draw(){
   // protéger avec push matrix et pop matrix
 
 // ===============
+
+
 
   // === TIMER ===
   // affichage timer
@@ -102,7 +103,7 @@ void draw(){
     println("GAME OVER");
   interval+=60;
   }
-  text(time,width/2,height/2);
+  text(time,90,52);
   
 // =================  
 
