@@ -24,7 +24,7 @@ int screen_width;
 int screen_height;
 PImage gun;
 PImage brick_pink;
-
+PImage surface;
 
 //==================
 
@@ -54,7 +54,7 @@ void setup(){
   // canon_base ===
   gun = loadImage("../prod/gun.png");
   
-  
+  surface = loadImage("../prod/surface.png");
   brick_pink = loadImage("../prod/brick_pink.png");
   
   // floating square ===
@@ -65,7 +65,7 @@ void setup(){
   //}
   
   // floating image
-  floating_img = loadImage("../prod/bulle_tiny.png");
+  floating_img = loadImage("../prod/bubble.png");
 }
 
 void draw(){
@@ -109,6 +109,7 @@ void draw(){
   //image(floating_img, 90, height/4, projectile.width/4, projectile.height/4);
   //image(floating_img, mouseX+floating_img.width/4, mouseY+floating_img.height/4);
   //image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
-  image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width/2, floating_img.height/2);
-  
+  //image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width*2, floating_img.height*2);
+  image(floating_img, mouseX-floating_img.width/12, mouseY+floating_img.height/12, floating_img.width*2, floating_img.height*2);
+  image(surface, 0,755, surface.width*6, surface.height*2);
 }
