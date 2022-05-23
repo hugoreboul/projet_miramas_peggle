@@ -12,7 +12,7 @@ OpenCV opencv;
 
 //==================
 
-float y = 180;
+float y = -32;
 PImage projectile;
 PImage bg;
 int scanner;
@@ -70,10 +70,10 @@ void setup(){
 
 void draw(){
   background(bg);
-  stroke(226,204,0);
-  line(0,scanner,width,scanner);
+  stroke(226,0,204);
+  line(scanner,0,scanner,height);
   scanner++;
-  if (scanner > height) {
+  if (scanner > width) {
    scanner = 0;
   }
   
