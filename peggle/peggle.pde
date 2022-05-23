@@ -29,15 +29,16 @@ int state = 0;
 
 void setup(){
   // affichage fullscreen 1920 ===
-  //fullScreen();
-  //bg = loadImage("../prod/bg.jpg");
-  //w=1920;
+  fullScreen();
+  bg = loadImage("../prod/Space Background_01.png");
+  screen_width = 1920;
+  screen_height = 1080;
   
   // affichage réduit 640 ===
-  size(600,800);
-  bg = loadImage("../prod/bg.jpg");
-  screen_width = 640;
-  screen_height = 800;
+  //size(600,800);
+  //bg = loadImage("../prod/bg.jpg");
+  //screen_width = 640;
+  //screen_height = 800;
   
   // état du jeu
   //state = 0;
@@ -55,6 +56,7 @@ void setup(){
 }
 
 
+
 // =============
 
 void draw(){
@@ -63,9 +65,9 @@ void draw(){
   
   // affichage laser ===
   stroke(226,204,0);
-  line(scanner,0,scanner,height);
+  //line(scanner,0,scanner,height);
   // affichage canon ===
-  image(gun, scanner-32, height-80, gun.width*3, gun.height*3);
+  image(gun, scanner-32, height-160, gun.width*5, gun.height*5);
   // translation à gauche et droite du canon et du laser ===
   scanner++;
   if (keyCode == LEFT) {
@@ -74,11 +76,11 @@ void draw(){
   else if (keyCode == RIGHT) {
     scanner = scanner +0.5;
   }
-  if (scanner > 640) { 
+  if (scanner > width) { 
     scanner = 0; 
   }
   if (scanner < 0) { 
-    scanner = 640; 
+    scanner = width; 
   }
   
 // ================
@@ -121,7 +123,7 @@ void draw(){
   image(floating_img, mouseX-floating_img.width/12, mouseY+floating_img.height/12, floating_img.width*2, floating_img.height*2);
   
   // affichage surface
-  image(surface, 0,755, surface.width*6, surface.height*2);
+  image(surface, 0,0);
   
 // ================== 
  
