@@ -31,7 +31,7 @@ PImage surface;
 PFont font;
 String time = "060";
 int t;
-int interval = 5;
+int interval = 60;
 int state = 0;
 PImage ball_image;
 boolean image_bool;
