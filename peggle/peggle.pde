@@ -227,7 +227,7 @@ void detectHotSpots() {
     boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
     boolean average_mag_ok = average_mag < detectAverageMagMax_;
     boolean ps_average_ok = ps_average < psAverageMax_;
-    if(((x1-x2)*(x1-x2))>0.05)
+    if(((x1-x2)*(x1-x2))>(y1-y2)*(y1-y2))
     {
       if(x1>x2)
       {
@@ -254,6 +254,13 @@ void detectHotSpots() {
     }
   }
 }
+
+//===================
+
+void detectHotSpots() {
+  
+}
+
 
 //===================
 void drawHotSpots() {
