@@ -12,7 +12,7 @@ OpenCV opencv;
 //==================
 
 PImage bg;
-int scanner;
+float scanner = 0;
 PImage floating_img;
 int screen_width;
 int screen_height;
@@ -62,12 +62,25 @@ void draw(){
   line(scanner,0,scanner,height);
   // affichage canon ===
   image(gun, scanner-32, height-80, gun.width*3, gun.height*3);
+  scanner++;
+  if (keyCode == LEFT) {
+    scanner = scanner -2.5;
+  } 
+  else if (keyCode == RIGHT) {
+    scanner = scanner +0.5;
+  }
+  if (scanner > 640) { 
+    scanner = 0; 
+  }
+  if (scanner < 0) { 
+    scanner = 640; 
+  }
 
   // translation de gauche à droite du canon
-  scanner++;
-  if (scanner > width) {
-   scanner = 0;
-  }
+  //scanner++;
+  //if (scanner > width) {
+  // scanner = 0;
+  //}
   
 // ================
   
@@ -85,8 +98,9 @@ void draw(){
   t= interval-int(millis()/1000);
   time = nf(t,3);
   if(t==0){
+    s = "GAME OVER";
     println("GAME OVER");
-   interval+=10;
+  interval+=60;
   }
   text(time,width/2,height/2);
   
@@ -99,7 +113,7 @@ void draw(){
   image(brick_pink, 300, 300);
   image(brick_pink, 90, 180);
   image(brick_pink, 250, 80);
-  image(brick_pink, 890, 980);
+  image(brick_pink, 490, 480);
 
   
   // affichage floating image ===
