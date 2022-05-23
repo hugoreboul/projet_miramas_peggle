@@ -27,6 +27,41 @@ int state = 0;
 
 //==================
 
+
+// VARIABLES OPENCV
+
+float timeMS_ = millis();
+float timeS_ = timeMS_ * 0.001;
+float timeSOld_ = timeMS_;
+
+int videoWidth_ = 320;
+int videoHeight_ = 180;
+// int scale_ = 6;
+int scale_ = 3;
+
+PImage[] frames_ = new PImage[2];
+int currentFrameIndex_ = 0;
+boolean first_ = true;
+PImage fullFrame_ = new PImage(videoWidth_*scale_,videoHeight_*scale_);
+
+Flow flow_ = null;
+HotSpot[] hotSpots_ = new HotSpot[6];
+
+//================================
+float detectAbsoluteMagMin_ = 2.0; 
+float detectAverageMagMax_ = 1.2;
+float psAverageMax_ = 0.2;
+//=================================
+
+int selectedHotSpotIndex_ = -1;
+float selectDelaySo_ = 0.5;
+float selectDelayS_ = selectDelaySo_;
+
+
+
+
+//==================
+
 void setup(){
   // affichage fullscreen 1920 ===
   fullScreen();
