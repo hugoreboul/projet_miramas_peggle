@@ -19,6 +19,10 @@ int screen_height;
 PImage gun;
 PImage brick_pink;
 PImage surface;
+PFont font;
+String time="060";
+int t;
+int interval=6;
 
 //==================
 
@@ -33,18 +37,17 @@ void setup(){
   bg = loadImage("../prod/bg.jpg");
   screen_width = 640;
   screen_height = 800;
-
   
-  
-  // canon_base ===
+  // canon ===
   gun = loadImage("../prod/gun.png");
-  
+  // surface
   surface = loadImage("../prod/surface.png");
+  // briques
   brick_pink = loadImage("../prod/brick_pink.png");
-  
-  
   // floating image
   floating_img = loadImage("../prod/bubble.png");
+  // font
+  font = createFont("Arial", 30);
 }
 
 void draw(){
@@ -63,16 +66,28 @@ void draw(){
    scanner = 0;
   }
   
+  // === CAMERA ===
+  // protéger avec push matrix et pop matrix
   
-  // AFFICHAGE IMAGES  ===
+  // === TIMER ===
+  // affichage timer
+  String s = "Timer";
+  fill(200);
+  text(s,40,40,280,320);
+  // countdwon
+  t= interval-int(millis()/1000);
+  time = nf(t,3);
+  if(t==0){
+    println("GAME OVER");
+   interval+=10;
+  }
+  text(time,width/2,height/2);
+  
+  // === AFFICHAGE IMAGES  ===
     
   //affichage briques ===
   image(brick_pink, 180, 90);
   image(brick_pink, 300, 300);
-  image(brick_pink, 90, 180);
-  image(brick_pink, 250, 80);
-  image(brick_pink, 890, 980);
- 
   image(brick_pink, 90, 180);
   image(brick_pink, 250, 80);
   image(brick_pink, 890, 980);
