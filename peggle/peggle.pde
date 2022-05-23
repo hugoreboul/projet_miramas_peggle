@@ -12,7 +12,6 @@ OpenCV opencv;
 
 //==================
 
-float y = -32;
 PImage projectile;
 PImage bg;
 int scanner;
@@ -70,18 +69,18 @@ void setup(){
 
 void draw(){
   background(bg);
-  stroke(226,0,204);
+  stroke(226,204,0);
   line(scanner,0,scanner,height);
+  
+
+  
+  // affichage canon ===
+  image(gun, scanner-32, height-80, gun.width*3, gun.height*3);
+
+  // translation de gauche à droite du canon
   scanner++;
   if (scanner > width) {
    scanner = 0;
-  }
-  
-  // affichage canon_base ===
-  image(gun, y, height-80, gun.width*3, gun.height*3);
-  y++;
-  if (y > width) { 
-    y = 0; 
   }
   
   
