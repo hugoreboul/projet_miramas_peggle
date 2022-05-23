@@ -51,7 +51,7 @@ float timeSOld_ = timeMS_;
 int videoWidth_ = 320;
 int videoHeight_ = 180;
 // int scale_ = 6;
-int scale_ = 1;
+int scale_ = 3;
 
 PImage[] frames_ = new PImage[2];
 int currentFrameIndex_ = 0;
@@ -222,21 +222,32 @@ void detectHotSpots() {
     float x2 = x1 + p_average.x;
     float y2 = y1 + p_average.y;
     line(x1,y1,x2,y2);
-    
+    println(p_average.x);
+    println(p_average.y);
     boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
     boolean average_mag_ok = average_mag < detectAverageMagMax_;
     boolean ps_average_ok = ps_average < psAverageMax_;
-       
-    if ( selectDelayS_ < 0.) {
+    if(((x1-x2)*(x1-x2))>0.05)
+    {
+      if(x1>x2)
+      {
+        deplacement("droite");
+      }
+      else
+      {
+      deplacement("gauche");
+      }
+      if ( selectDelayS_ < 0.) {
       
-      if ( absolute_mag_ok ) {
+        if ( absolute_mag_ok ) {
         
-        if ( average_mag_ok )  {
+          if ( average_mag_ok )  {
           
-          if ( ps_average_ok )  {
+            if ( ps_average_ok )  {
             
-            selectedHotSpotIndex_ = selectedHotSpotIndex_ == k ? -1 : k;
-            selectDelayS_ = selectDelaySo_;
+              selectedHotSpotIndex_ = selectedHotSpotIndex_ == k ? -1 : k;
+              selectDelayS_ = selectDelaySo_;
+            }
           }
         }
       }
@@ -484,5 +495,22 @@ void mouseClicked() {
   {
     axe_ball=scanner;
     image_bool=true;
+  }
+}
+
+
+void deplacement(String message){
+  scanner++;
+  if (message == "droite") {
+    scanner = scanner - 14;
+  } 
+  else if (message == "gauche") {
+    scanner = scanner +10;
+  }
+  if (scanner > width-160) { 
+    scanner = width-160; 
+  }
+  if (scanner < 36) { 
+    scanner = 36; 
   }
 }
