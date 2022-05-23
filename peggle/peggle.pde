@@ -19,7 +19,6 @@ PImage bg;
 List<Image> images = new ArrayList<Image>();
 float scanner = 0;
 //Image[] images = new Image[5];
-float y = 180;
 PImage projectile;
 PImage floating_square;
 PImage floating_img;
@@ -37,6 +36,8 @@ int state = 0;
 PImage ball_image;
 boolean image_bool;
 int ball;
+PImage brick_pink;
+PImage brick_green;
 
 //==================
 
@@ -386,8 +387,6 @@ popMatrix();
   // affichage surface
   image(surface, 0,0);
   
-  
-=======
   for(int i=0;i<images.size()-1;i++)
   {
       images.get(i).affiche();
@@ -495,14 +494,6 @@ void mouseClicked() {
   if(image_bool!=true)
   {
     axe_ball=scanner;
-    image_bool=true;
-  }
-}
-
-void mouseClicked() {
-  if(image_bool!=true)
-  {
-    axe_ball=y;
     image_bool=true;
   }
 }
