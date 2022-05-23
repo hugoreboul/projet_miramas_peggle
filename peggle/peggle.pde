@@ -85,16 +85,25 @@ void draw(){
   }
   
   
-  // affichage image  ===
+  // affichage images  ===
+  
+  
   //image(projectile, 0, 0);
   //image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
+  
+  //affichage briques ===
   image(brick_pink, 180, 90);
   image(brick_pink, 300, 300);
-  
-  // affichage floating square ===
   image(brick_pink, 90, 180);
   image(brick_pink, 250, 80);
   image(brick_pink, 890, 980);
+ 
+  image(brick_pink, 90, 180);
+  image(brick_pink, 250, 80);
+  image(brick_pink, 890, 980);
+  
+  
+  
   //image(floating_square, spacement_x, spacement_y);
   //spacement_x++;
   //spacement_y++;
@@ -111,5 +120,6 @@ void draw(){
   //image(floating_img, mouseX-floating_img.width/8, mouseY-floating_img.height/8);
   //image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width*2, floating_img.height*2);
   image(floating_img, mouseX-floating_img.width/12, mouseY+floating_img.height/12, floating_img.width*2, floating_img.height*2);
+  
   image(surface, 0,755, surface.width*6, surface.height*2);
 }
