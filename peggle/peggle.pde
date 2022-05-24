@@ -38,6 +38,8 @@ boolean image_bool;
 int ball;
 PImage brick_pink;
 PImage brick_green;
+long move_delay = System.currentTimeMillis();
+String movement;
 
 //==================
 
@@ -143,7 +145,6 @@ void setup(){
 // FIN SETUP OPENCV
 
 
-
   // canon ===
   gun = loadImage("../prod/gun2.png");
   // surface
@@ -179,11 +180,8 @@ void setup(){
 
 // Détection ppour le hotspot de mouvement
 void detectHotSpots_move() {
-  
-  for ( int k = 0 ; k < 2 ; k++ ) {
-    
-    HotSpot hs = hotSpots_[k];
-    
+    HotSpot hs = hotSpots_[1];
+    int k = 1;
     int nb = 0;
     
     float absolute_mag = 0.0;
@@ -225,36 +223,42 @@ void detectHotSpots_move() {
     line(x1,y1,x2,y2);
     //println(p_average.x);
     //println(p_average.y);
+    println((x2-x1)*(x2-x1));
     boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
     boolean average_mag_ok = average_mag < detectAverageMagMax_;
     boolean ps_average_ok = ps_average < psAverageMax_;
     
-    if(((x2-x1)*(x2-x1)>(y2-y1)*(y2-y1)) && ((x2-x1)*(x2-x1)<0.1))
-    {
-      if(x1>x2)
+    if(System.currentTimeMillis() - move_delay > 1000){
+      if(((x2-x1)*(x2-x1)>(y2-y1)*(y2-y1)) && ((x2-x1)*(x2-x1)>0.05))
       {
-        deplacement("droite");
-      }
-      else
-      {
-      deplacement("gauche");
-      }
-      if ( selectDelayS_ < 0.) {
-      
-        if ( absolute_mag_ok ) {
+        if(x1>x2)
+        {
+          //scanner = deplacement("droite");
+          movement = "droite";
+          move_delay = System.currentTimeMillis();
+        }
+        else
+        {
+          //scanner = deplacement("gauche");
+          movement = "gauche";
+          move_delay = System.currentTimeMillis();
+        }
+        if ( selectDelayS_ < 0.) {
         
-          if ( average_mag_ok )  {
+          if ( absolute_mag_ok ) {
           
-            if ( ps_average_ok )  {
+            if ( average_mag_ok )  {
             
-              selectedHotSpotIndex_ = selectedHotSpotIndex_ == k ? -1 : k;
-              selectDelayS_ = selectDelaySo_;
+              if ( ps_average_ok )  {
+              
+                selectedHotSpotIndex_ = selectedHotSpotIndex_ == k ? -1 : k;
+                selectDelayS_ = selectDelaySo_;
+              }
             }
           }
         }
       }
     }
-  }
 }
 
 //===================
@@ -263,16 +267,13 @@ void detectHotSpots_move() {
 
 // Détection pour le Hotspot de tir
 void detectHotSpots_shoot() {
-  for ( int k = 0 ; k < 2 ; k++ ) {
-    
-    HotSpot hs = hotSpots_[k];
-    
+    HotSpot hs = hotSpots_[0];
+    int k = 0;
     int nb = 0;
     
     float absolute_mag = 0.0;
     PVector p_average = new PVector(0.,0.);
-    float ps_average = 0.0;
-    
+    float ps_average = 0.0; 
     int step = 2;
       
     //=======================================
@@ -311,16 +312,15 @@ void detectHotSpots_shoot() {
     boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
     boolean average_mag_ok = average_mag < detectAverageMagMax_;
     boolean ps_average_ok = ps_average < psAverageMax_;
-    if(((x1-x2)*(x1-x2))>(y1-y2)*(y1-y2))
+    
+    
+    if((y1-y2)*(y1-y2)>((x1-x2)*(x1-x2))&& ((x2-x1)*(x2-x1)>0.05))
     {
-      if(x1>x2)
+      if(y1>y2)
       {
-        deplacement("droite");
+        tir();
       }
-      else
-      {
-      deplacement("gauche");
-      }
+      
       if ( selectDelayS_ < 0.) {
       
         if ( absolute_mag_ok ) {
@@ -336,7 +336,6 @@ void detectHotSpots_shoot() {
         }
       }
     }
-  }  
 }
 
 
@@ -357,11 +356,8 @@ void drawHotSpots() {
 
 // FIN HOTSPOTS OPENCV
 
-
-
 // =============
 void draw(){
-
   // affichage background
   background(bg);
   
@@ -370,48 +366,43 @@ void draw(){
   //line(scanner,0,scanner,height);
   
   // affichage canon ===
-  image(gun, scanner-32, height-240, gun.width*3, gun.height*3);
+    scanner = deplacement(movement);
+    image(gun, scanner-32, height-240, gun.width*3, gun.height*3); 
   
-    for(int i=0;i<images.size()-1;i++)
+  
+  for(int i=0;i<images.size()-1;i++)
   {
-      images.get(i).affiche();
+    images.get(i).affiche();
   }
-    for(int i=0;i<images.size()-1;i++)
+  for(int i=0;i<images.size()-1;i++)
   {
-      images.get(i).affiche();
+    images.get(i).affiche();
   }
 
   // translation à gauche et droite du canon et du laser ===
-  scanner++;
-  if (keyCode == LEFT) {
-    scanner = scanner - 14;
-  } 
-  else if (keyCode == RIGHT) {
-    scanner = scanner +10;
-  }
-  if (scanner > width-160) { 
-    scanner = width-160; 
-  }
-  if (scanner < 36) { 
-    scanner = 36; 
-  }
+  //scanner++;
+  //if (keyCode == LEFT) {
+  //  scanner = scanner - 14;
+  //} 
+  //else if (keyCode == RIGHT) {
+  //  scanner = scanner +10;
+  //}
+  //if (scanner > width-160) { 
+  //  scanner = width-160; 
+  //}
+  //if (scanner < 36) { 
+  //  scanner = 36; 
+  //}
 // ================
   
 // === CAMERA ===
 pushMatrix();
-synchronized(this) {
-    
+synchronized(this) { 
     timeMS_ = millis();
     timeS_ = timeMS_ * 0.001;
-    
     selectDelayS_ -= timeS_ - timeSOld_;
-  
-
-    
-    if ( frames_[currentFrameIndex_] != null ) {
-      
+    if ( frames_[currentFrameIndex_] != null ) {  
       //frames_[currentFrameIndex_].resize(640*scale,360*scale); // slow...
-      
       frames_[currentFrameIndex_].loadPixels();
       fullFrame_.loadPixels();
       for (int j = 0; j < fullFrame_.height ; j+=2) {
@@ -421,8 +412,7 @@ synchronized(this) {
           fullFrame_.pixels[index_dst] = frames_[currentFrameIndex_].pixels[index_src];
         }
       }
-      fullFrame_.updatePixels();
-      
+      fullFrame_.updatePixels();    
       tint(255, 255, 255, 255);
       image(fullFrame_, 0, 0);
       stroke(255,0,0);
@@ -430,11 +420,10 @@ synchronized(this) {
       
 
       scale(scale_);
-      
-      
-      opencv_.drawOpticalFlow();
-      
+      opencv_.drawOpticalFlow(); 
       drawHotSpots();
+      
+      
       // direction des mouvements
       detectHotSpots_move();
       // déclenchement des tirs
@@ -446,8 +435,6 @@ synchronized(this) {
   popMatrix();
   timeSOld_ = timeS_;
 
-
-
 // ===============
 
 
@@ -458,7 +445,7 @@ synchronized(this) {
   fill(200);
   text(s,40,40,280,320);
   // countdwon
-  t= interval-int(millis()/1000);
+  t = interval-int(millis()/1000);
   time = nf(t,3);
   if(t==0){
     s = "GAME OVER";
@@ -559,6 +546,8 @@ void keyPressed() {
   }
 }
 
+
+//====================
 void mouseClicked() {
   if(image_bool!=true)
   {
@@ -567,9 +556,23 @@ void mouseClicked() {
   }
 }
 
+//======================
 
-void deplacement(String message){
-  scanner++;
+// fct pour le tir
+void tir(){
+  if(image_bool!=true)
+  {
+    axe_ball=scanner;
+    image_bool=true;
+  }
+}
+
+//===============================
+
+
+// déplacement vers la droite ou la gauche
+float deplacement(String message){
+  //scanner++;
   if (message == "droite") {
     scanner = scanner - 14;
   } 
@@ -582,4 +585,5 @@ void deplacement(String message){
   if (scanner < 36) { 
     scanner = 36; 
   }
+  return scanner;
 }
