@@ -59,7 +59,7 @@ boolean first_ = true;
 PImage fullFrame_ = new PImage(videoWidth_*scale_,videoHeight_*scale_);
 
 Flow flow_ = null;
-HotSpot[] hotSpots_ = new HotSpot[6];
+HotSpot[] hotSpots_ = new HotSpot[2];
 
 //================================
 float detectAbsoluteMagMin_ = 2.0; 
@@ -124,11 +124,13 @@ void setup(){
     int x = m;
     int y = m;
     
-    //x = m;    
+    
+    // création du hotspot de tir 
     x = 0;
     y = 0;
     hotSpots_[0] = new HotSpot(x,y,w,h);
     
+    // création du hotspot de mouvement
     x = videoWidth_ / 2 - m/2 + m/5;
     y = videoHeight_ / 2 - h / 2;
     w = 190;
@@ -173,6 +175,9 @@ void setup(){
 
 // DEBUT HOTSPOTS OPENCV
 // =====================
+
+
+// Détection ppour le hotspot de mouvement
 void detectHotSpots_move() {
   
   for ( int k = 0 ; k < 2 ; k++ ) {
