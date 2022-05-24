@@ -90,17 +90,17 @@ float selectDelayS_ = selectDelaySo_;
 //==================
 void setup(){
   
-  file = new SoundFile(this,"../prod/sample.mp3");
+  file = new SoundFile(this,"./data/sample.mp3");
   file.loop();
   // affichage fullscreen 1920 ===
   fullScreen();
-  bg = loadImage("../prod/Space Background_01.png");
+  bg = loadImage("./data/Space Background_01.png");
   screen_width = 1920;
   screen_height = 1080;
   
   // affichage réduit 640 ===
   //size(600,800);
-  //bg = loadImage("../prod/bg.jpg");
+  //bg = loadImage("./data/bg.jpg");
   //screen_width = 640;
   //screen_height = 800;
   
@@ -159,21 +159,21 @@ void setup(){
 
 
   // canon ===
-  gun = loadImage("../prod/gun2.png");
+  gun = loadImage("./data/gun2.png");
   // surface
-  surface = loadImage("../prod/lunar_surface.png");
+  surface = loadImage("./data/lunar_surface.png");
   // briques
-  brick_pink = loadImage("../prod/brick_pink.png");
-  brick_green = loadImage("../prod/brick_green.png");
-  brick_green_1 = loadImage("../prod/brick_green_1.png");
-  brick_green_2 = loadImage("../prod/brick_green_2.png");
-  brick_green_3 = loadImage("../prod/brick_green_3.png");
+  brick_pink = loadImage("./data/brick_pink.png");
+  brick_green = loadImage("./data/brick_green.png");
+  brick_green_1 = loadImage("./data/brick_green_1.png");
+  brick_green_2 = loadImage("./data/brick_green_2.png");
+  brick_green_3 = loadImage("./data/brick_green_3.png");
   // projectile
-  ball_image = loadImage("../prod/laser.png");
+  ball_image = loadImage("./data/laser.png");
   // compteur de projectile
-  laser_counter = loadImage("../prod/laser_counter.png");
+  laser_counter = loadImage("./data/laser_counter.png");
   // débris
-  debris = loadImage("../prod/debris_full.png");
+  debris = loadImage("./data/debris_full.png");
 
   // font
   font = createFont("Arial", 30);
