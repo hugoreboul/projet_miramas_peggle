@@ -139,13 +139,9 @@ void setup(){
   }
 // ================
 // FIN SETUP OPENCV
-  
 
-  
-  // état du jeu
-  //state = 0;
 
-  
+
   // canon ===
   gun = loadImage("../prod/gun2.png");
   // surface
@@ -222,12 +218,13 @@ void detectHotSpots_move() {
     float x2 = x1 + p_average.x;
     float y2 = y1 + p_average.y;
     line(x1,y1,x2,y2);
-    println(p_average.x);
-    println(p_average.y);
+    //println(p_average.x);
+    //println(p_average.y);
     boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
     boolean average_mag_ok = average_mag < detectAverageMagMax_;
     boolean ps_average_ok = ps_average < psAverageMax_;
-    if(((x1-x2)*(x1-x2))>(y1-y2)*(y1-y2))
+    
+    if(((x2-x1)*(x2-x1)>(y2-y1)*(y2-y1)) && ((x2-x1)*(x2-x1)<0.1))
     {
       if(x1>x2)
       {
@@ -257,8 +254,84 @@ void detectHotSpots_move() {
 
 //===================
 
+
+
+// Détection pour le Hotspot de tir
 void detectHotSpots_shoot() {
-  
+  for ( int k = 0 ; k < 2 ; k++ ) {
+    
+    HotSpot hs = hotSpots_[k];
+    
+    int nb = 0;
+    
+    float absolute_mag = 0.0;
+    PVector p_average = new PVector(0.,0.);
+    float ps_average = 0.0;
+    
+    int step = 2;
+      
+    //=======================================
+    for( int j = 0 ; j < hs.h ; j += step ) {
+      for( int i = 0 ; i < hs.w ; i += step ) {
+        PVector p = flow_.getFlowAt(hs.x+i,hs.y+j);
+        absolute_mag += p.mag();
+        p_average.add(p);
+        nb++;
+      }   
+    }
+    absolute_mag /= nb;
+    p_average.div(nb);
+    float average_mag = p_average.mag();
+    
+    //=======================================
+    for( int j = 0 ; j < hs.h ; j += step ) {
+      for( int i = 0 ; i < hs.w ; i += step ) {
+        PVector p = flow_.getFlowAt(hs.x+i,hs.y+j);
+        ps_average += p.dot(p_average);
+        nb++;
+      }   
+    }
+    ps_average /= nb;
+    
+    noFill();
+    stroke(0,0,255);
+    strokeWeight(2.);
+    float x1 = hs.x + hs.w / 2.;
+    float y1 = hs.y + hs.h / 2.;
+    float x2 = x1 + p_average.x;
+    float y2 = y1 + p_average.y;
+    line(x1,y1,x2,y2);
+    //println(p_average.x);
+    //println(p_average.y);
+    boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
+    boolean average_mag_ok = average_mag < detectAverageMagMax_;
+    boolean ps_average_ok = ps_average < psAverageMax_;
+    if(((x1-x2)*(x1-x2))>(y1-y2)*(y1-y2))
+    {
+      if(x1>x2)
+      {
+        deplacement("droite");
+      }
+      else
+      {
+      deplacement("gauche");
+      }
+      if ( selectDelayS_ < 0.) {
+      
+        if ( absolute_mag_ok ) {
+        
+          if ( average_mag_ok )  {
+          
+            if ( ps_average_ok )  {
+            
+              selectedHotSpotIndex_ = selectedHotSpotIndex_ == k ? -1 : k;
+              selectDelayS_ = selectDelaySo_;
+            }
+          }
+        }
+      }
+    }
+  }  
 }
 
 
@@ -365,7 +438,7 @@ synchronized(this) {
       first_ = false; 
     }
   }
-popMatrix();
+  popMatrix();
   timeSOld_ = timeS_;
 
 
@@ -391,13 +464,7 @@ popMatrix();
   
 // =================  
 
-  // === IMAGES  ===
-
-
-  
-  // affichage floating image ===
-  //image(floating_img, mouseX-floating_img.width/12, mouseY+floating_img.height/12, floating_img.width*2, floating_img.height*2);
-  
+  // === IMAGES  ===  
   // affichage surface
   image(surface, 0,0);
   
@@ -406,23 +473,7 @@ popMatrix();
       images.get(i).affiche();
   }
 
-  
   // affichage image  ===
-  //image(projectile, 0, 0);
-  //image(projectile, 300, height/2, projectile.width/2, projectile.height/2);
-
-
-  //image(floating_square, spacement_x, spacement_y);
-  //spacement_x++;
-  //spacement_y++;
-  //for (spacement_x <1920 && spacement_y <1080) {
-  //  spacement_x=spacement_x+150;
-  //  spacement_y=spacement_y+150
-  //}
-  //image(floating_square, mouseX-floating_square.width/2, mouseY-floating_square.height/2);
-  
-  // affichage floating image ===
-  //image(floating_img, mouseX-floating_img.width/4, mouseY-floating_img.height/6, floating_img.width/2, floating_img.height/2);
   if(image_bool==true)
   {
     Image ball_img=new Image(ball_image,int(axe_ball),height-80-ball, ball_image.width/4, ball_image.height/4);
@@ -438,9 +489,9 @@ popMatrix();
       int coor_brick_y_1=images.get(i).y+images.get(i).h;
       int coor_brick_x_2=images.get(i).x+images.get(i).w;
       int coor_brick_y_2=images.get(i).y+images.get(i).w+images.get(i).h;
-      println(":::");
-      println(coor_ball_x_1);
-      println(coor_brick_x_1);
+      //println(":::");
+      //println(coor_ball_x_1);
+      //println(coor_brick_x_1);
       if (coor_ball_y_1 < coor_brick_y_1 && coor_ball_x_1 > coor_brick_x_1 && coor_ball_x_2 < coor_brick_x_2)
       {
         images.remove(i);
@@ -494,7 +545,13 @@ void keyPressed() {
     cam_.stop();
     exit();
   }
-   
+  if ((keyCode == 'a') || (keyCode == 'A')){
+    if(image_bool!=true)
+      {
+        axe_ball=scanner;
+        image_bool=true;
+     }
+  }
 }
 
 void mouseClicked() {
