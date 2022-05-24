@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import processing.sound.*;
 
 
 Capture cam_;
@@ -29,9 +30,9 @@ PImage gun;
 float y = 180;
 PImage surface;
 PFont font;
-String time = "060";
+String time = "120";
 int t;
-int interval = 60;
+int interval = 120;
 int state = 0;
 PImage ball_image;
 boolean image_bool;
@@ -43,6 +44,12 @@ PImage brick_green_2;
 PImage brick_green_1;
 long move_delay = System.currentTimeMillis();
 String movement;
+PImage laser_counter;
+String s = "";
+boolean gameover = false;
+PImage debris;
+int counter = 0;
+SoundFile file;
 
 //==================
 
@@ -82,6 +89,9 @@ float selectDelayS_ = selectDelaySo_;
 
 //==================
 void setup(){
+  
+  file = new SoundFile(this,"../prod/sample.mp3");
+  file.loop();
   // affichage fullscreen 1920 ===
   fullScreen();
   bg = loadImage("../prod/Space Background_01.png");
@@ -160,10 +170,15 @@ void setup(){
   brick_green_3 = loadImage("../prod/brick_green_3.png");
   // projectile
   ball_image = loadImage("../prod/laser.png");
+  // compteur de projectile
+  laser_counter = loadImage("../prod/laser_counter.png");
+  // débris
+  debris = loadImage("../prod/debris_full.png");
 
   // font
   font = createFont("Arial", 30);
   
+  images.add(new Image(debris,0,0));
   //images[0].affiche();
   //Image.Image(brick_pink, 180, 90);
   images.add(new Image(brick_pink,420,110, brick_pink.width* 3,brick_pink.height* 2));
@@ -370,20 +385,26 @@ void drawHotSpots() {
 
 // =============
 void draw(){
+
+  // === IMAGES  ===  
   // affichage background
   background(bg);
-  
+  image(debris,0,0);
+
   // affichage laser ===
   //stroke(226,204,0);
   //line(scanner,0,scanner,height);
-  
+  if(image_bool == false){
+    Image laser_count = new Image(laser_counter, 20, screen_height - 800);
+    laser_count.affiche();
+  }
   // affichage image  ===
-  if(image_bool==true)
-  {
-    Image ball_img=new Image(ball_image,int(axe_ball),height-ball, ball_image.width/4, ball_image.height/4);
+  if(image_bool == true){
+    //Image laser_counter = new Image(laser_counter, screen_width - 180, screen_height - 800, laser_counter.width/4, laser_counter.height/4);
+    Image ball_img = new Image(ball_image,int(axe_ball),height-ball, ball_image.width/4, ball_image.height/4);
     ball_img.affiche();
     //image(ball_image, axe_ball, height-80-ball, ball_image.width/2, ball_image.height/2);
-    for(int i=0;i<images.size()-1;i++)
+    for(int i=0;i<images.size();i++)
     {
       int coor_ball_x_1=ball_img.x;
       int coor_ball_y_1=ball_img.y;
@@ -400,7 +421,7 @@ void draw(){
       {
         images.remove(i);
         image_bool=false;
-        ball = 0;
+        ball = 0;  
       }
     }
     if(image_bool==true)
@@ -408,8 +429,8 @@ void draw(){
       ball=ball+40;
       if (ball > screen_height) {
          ball = 0;
-         image_bool=false;
-      }
+         image_bool=false; 
+    }
       ball++;
     }
   }
@@ -421,11 +442,7 @@ void draw(){
   image(gun, scanner-32, height-240, gun.width*3, gun.height*3); 
   
   
-  for(int i=0;i<images.size()-1;i++)
-  {
-    images.get(i).affiche();
-  }
-  for(int i=0;i<images.size()-1;i++)
+  for(int i=0;i<images.size();i++)
   {
     images.get(i).affiche();
   }
@@ -469,11 +486,9 @@ synchronized(this) {
       stroke(255,0,0);
       strokeWeight(1.);
       
-
       scale(scale_);
       opencv_.drawOpticalFlow(); 
       drawHotSpots();
-      
       
       // direction des mouvements
       detectHotSpots_move();
@@ -492,26 +507,31 @@ synchronized(this) {
 
   // === TIMER ===
   // affichage timer
-  String s = "Timer";
   fill(200);
-  text(s,40,40,280,320);
-  // countdwon
-  t = interval-int(millis()/1000);
+  t= interval-int(millis()/1000);
   time = nf(t,3);
-  if(t==0){
-    s = "GAME OVER";
-    println("GAME OVER");
-  interval+=60;
+  textSize(75);
+  if(t>=0)
+  text(time,10,250);
+  else
+  text(nf(0,2),10,250);
+  if(images.size()==0){
+    s = "VICTOIRE";
+    text(s,780,900);
   }
-  text(time,90,52);
+  else if(t<=0){
+    gameover=true;
+    s = "GAME OVER";
+    text(s,780,900);
+  }
   
-// =================  
-
-  // === IMAGES  ===  
+  // =================  
+  
+  // AFFICHAGE SURFACE
   // affichage surface
   image(surface, 0,0);
   
-  for(int i=0;i<images.size()-1;i++)
+  for(int i=0;i<images.size();i++)
   {
       images.get(i).affiche();
   }
@@ -547,23 +567,44 @@ void keyPressed() {
     cam_.stop();
     exit();
   }
-  if ((keyCode == 'a') || (keyCode == 'A')){
-    if(image_bool!=true)
-      {
-        axe_ball=scanner;
-        image_bool=true;
-     }
+  if ( ( keyCode == 'r' ) || ( keyCode == 'R' )){
+      reset(); // ADD LOGIC TO CALL YOUR RESET FUNCTION!!!
   }
+
 }
-
-
-//====================
 void mouseClicked() {
   if(image_bool!=true)
   {
     axe_ball=scanner;
     image_bool=true;
   }
+}
+
+void reset() {
+  images.clear();
+    images.add(new Image(brick_pink,420,110, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,300,320, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,600,220, brick_pink.width* 3,brick_pink.height* 2));
+  //boss
+  images.add(new Image(brick_green,890,245, brick_green.width* 3,brick_green.height* 2));
+  images.add(new Image(brick_green_1,890,255, brick_green.width* 3,brick_green.height* 2));
+  images.add(new Image(brick_green_2,890,265, brick_green.width* 3,brick_green.height* 2));
+  images.add(new Image(brick_green_3,890,275, brick_green.width* 3,brick_green.height* 2));
+  //====
+  images.add(new Image(brick_pink,1100,290, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,1300,90, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,1700,230, brick_pink.width* 3,brick_pink.height* 2));
+  images.add(new Image(brick_pink,1300,280, brick_pink.width* 3,brick_pink.height* 2));
+   selectedHotSpotIndex_ = -1;
+   selectDelaySo_ = 0.5;
+   selectDelayS_ = selectDelaySo_;
+   timeMS_ = millis();
+   timeS_ = timeMS_ * 0.001;
+
+   selectDelayS_ -= timeS_ - timeSOld_;
+   interval=20;
+
+   gameover=false;
 }
 
 //======================
