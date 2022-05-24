@@ -177,7 +177,7 @@ void setup(){
 
 // DEBUT HOTSPOTS OPENCV
 // =====================
-void detectHotSpots() {
+void detectHotSpots_move() {
   
   for ( int k = 0 ; k < 2 ; k++ ) {
     
@@ -257,7 +257,7 @@ void detectHotSpots() {
 
 //===================
 
-void detectHotSpots() {
+void detectHotSpots_shoot() {
   
 }
 
@@ -279,11 +279,12 @@ void drawHotSpots() {
 
 // FIN HOTSPOTS OPENCV
 
+
+
 // =============
 void draw(){
 
   // affichage background
-
   background(bg);
   
   // affichage laser ===
@@ -316,12 +317,9 @@ void draw(){
   if (scanner < 36) { 
     scanner = 36; 
   }
-
 // ================
   
 // === CAMERA ===
-
-
 pushMatrix();
 synchronized(this) {
     
@@ -359,8 +357,10 @@ synchronized(this) {
       opencv_.drawOpticalFlow();
       
       drawHotSpots();
-      
-      detectHotSpots();
+      // direction des mouvements
+      detectHotSpots_move();
+      // déclenchement des tirs
+      detectHotSpots_shoot();
     
       first_ = false; 
     }
