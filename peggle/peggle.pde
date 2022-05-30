@@ -76,7 +76,7 @@ void setup(){
   // musique
   file = new SoundFile(this,"./data/sample.mp3");
   file.loop();
-  // affichage fullscreen 1920 ===
+  // affichage fullscreen 1920
   fullScreen();
   bg = loadImage("./data/Space Background_01.png");
   screen_width = 1920;
@@ -93,8 +93,6 @@ void setup(){
     for (int i = 0; i < cameras.length; i++) {
       println(cameras[i]);
     }
-    // The camera can be initialized directly using an 
-    // element from the array returned by list():
     //cam_ = new Capture(this, videoWidth_, videoHeight_, "HD Pro Webcam C920");
     cam_ = new Capture(this, videoWidth_, videoHeight_, "EasyCamera");
     opencv_ = new OpenCV(this, videoWidth_, videoHeight_);
@@ -268,8 +266,6 @@ void detectHotSpots_shoot() {
   float x2 = x1 + p_average.x;
   float y2 = y1 + p_average.y;
   line(x1,y1,x2,y2);
-  //println(p_average.x);
-  //println(p_average.y);
   boolean absolute_mag_ok = absolute_mag > detectAbsoluteMagMin_;
   boolean average_mag_ok = average_mag < detectAverageMagMax_;
   boolean ps_average_ok = ps_average < psAverageMax_;
